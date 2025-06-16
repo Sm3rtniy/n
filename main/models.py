@@ -6,6 +6,9 @@ from django.urls import reverse
 class Capacity(models.Model):
     """Модель для объема флакона (например, 50ml, 100ml)"""
     volume = models.CharField(max_length=20, unique=True)
+    class Meta:
+        verbose_name = 'Объём'
+        verbose_name_plural = 'Объёмы'
     
     
     def __str__(self):
@@ -15,7 +18,10 @@ class Capacity(models.Model):
 class OlfactoryNoteCategory(models.Model):
     """Категория нот (верхние, средние, базовые)"""
     name = models.CharField(max_length=50, unique=True)
-    
+    class Meta:
+        verbose_name = 'нота'
+        verbose_name_plural = 'ноты'
+
 
     def __str__(self):
         return self.name
@@ -27,6 +33,9 @@ class OlfactoryNote(models.Model):
     category = models.ForeignKey(OlfactoryNoteCategory, on_delete=models.CASCADE, 
                                 related_name='notes')
     
+    class Meta:
+        verbose_name = 'Ольфакторная нота'
+        verbose_name_plural = 'Ольфакторные ноты'
 
     def __str__(self):
         return self.name
@@ -36,7 +45,10 @@ class OlfactoryFamily(models.Model):
     """Ольфакторная семья (например, Amber Oriental)"""
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
-    
+    class Meta:
+        verbose_name = 'Ольфакторная семья'
+        verbose_name_plural = 'Ольфакторные семьи'
+
 
     def __str__(self):
         return self.name
@@ -55,8 +67,8 @@ class Ingredient(models.Model):
 
 
     class Meta:
-        verbose_name = 'ingredient'
-        verbose_name_plural = 'ingredients'
+        verbose_name = 'Ингридиент'
+        verbose_name_plural = 'Ингридиенты'
 
 
 class Category(models.Model):
@@ -72,7 +84,7 @@ class Category(models.Model):
                                  verbose_name="Filter name (if different from category)")
     filter_slug = models.SlugField(max_length=50, blank=True, 
                                  verbose_name="Filter slug (for frontend)")
-    description = models.TextField(blank=True, verbose_name="Description")
+    description = models.TextField(blank=True, verbose_name="Описание")
 
 
     def __str__(self):
@@ -84,8 +96,8 @@ class Category(models.Model):
     class Meta:
         ordering = ['name']
         indexes = [models.Index(fields=['name'])]
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
         
 
     def get_item_count(self):
@@ -125,6 +137,9 @@ class Perfume(models.Model):
                                          verbose_name="Show in featured products section")
     show_in_best_sellers = models.BooleanField(default=False, 
                                              verbose_name="Show in best sellers section")
+    class Meta:
+        verbose_name = 'Парфюм'
+        verbose_name_plural = 'Парфюмы'
 
 
     def __str__(self):
@@ -152,6 +167,7 @@ class PerfumeCapacity(models.Model):
 
     class Meta:
         unique_together = ('perfume', 'capacity')
+	   
         
 
     def __str__(self):
@@ -168,6 +184,9 @@ class PerfumeImage(models.Model):
     """Изображения парфюма"""
     product = models.ForeignKey(Perfume, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
+    class Meta:
+        verbose_name = 'Изображение парфюма'
+        verbose_name_plural = 'Изображения парфюма'
     
 
     def __str__(self):
